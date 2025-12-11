@@ -4,8 +4,7 @@
 ![Category](https://img.shields.io/badge/Focus-Automation%20%7C%20SOC%20Scripting-green)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 
-This repository exists as a fast, practical reference for writing clean, modern Python — especially for automation, SOC tooling, and daily scripting tasks.  
-If you're like me and would rather focuses on **shortcuts, cleaner patterns, and “better ways”** to write scripts right from the beginning, this is for you.
+This repository exists as a fast, practical reference for writing clean, modern Python, especially for automation, SOC tooling, and daily scripting tasks. If you're like me and would rather focuses on **shortcuts, cleaner patterns, and “better ways”** to write scripts right from the beginning, this is for you.
 
 Think of this as a cheat sheet for writing smarter, more expressive Python.
 
