@@ -510,7 +510,7 @@ It also uses every Python technique you learned earlier, showing how foundationa
 ## Final Thoughts
 
 This guide isn’t meant to teach Python from the ground up.  
-It’s meant to make you **dangerous quickly** — to give you the expressive tools that experienced engineers use by default.
+It’s meant to make you **dangerous quickly** by giving you the expressive tools that experienced engineers use by default.
 
 Use these patterns as your baseline.  
 Everything you build from here becomes clearer, cleaner, and more maintainable.
