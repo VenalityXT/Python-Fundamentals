@@ -33,25 +33,25 @@ Think of this as a cheat sheet for writing smarter, more expressive Python.
 ### “We start with humble beginnings…”
 [Back to Table of Contents](#table-of-contents)
 
-`py
+```py
 print("Hello, world.")
 # Basic print — works, but doesn't scale when you need variables or formatting.
-`
+```
 
 Now, the improved versions:
 
-`py
+```py
 name = "Michael"
 
 print(f"Hello, {name}.")           
 # f-strings: fastest, cleanest, and recommended.
 
 print("Hello, {}".format(name))    
-# Older `.format()` — works, more typing.
+# Older ```.format()``` — works, more typing.
 
 print("Hello,", name)              
 # Python auto-inserts spaces.
-`
+```
 
 ---
 
@@ -60,35 +60,35 @@ print("Hello,", name)
 
 Before automating anything, you need to store and manipulate values.
 
-`py
+```py
 x = 5
 y = 10
 z = 15
-`
+```
 
 Better — multiple assignment:
 
-`py
+```py
 a, b, c = 5, 10, 15
-`
+```
 
 Swapping values:
 
-`py
+```py
 left, right = right, left
-`
+```
 
 Capturing middle items:
 
-`py
+```py
 first, *middle, last = [1, 2, 3, 4, 5]
-`
+```
 
 Bonus — unpack a range:
 
-`py
+```py
 a, b, c = range(3)
-`
+```
 
 ---
 
@@ -97,35 +97,35 @@ a, b, c = range(3)
 
 Lists appear everywhere in scripting.
 
-`py
+```py
 servers = ["splunk", "pfsense", "core-switch"]
-`
+```
 
 Better operations:
 
-`py
+```py
 servers += ["kali"]
 servers.extend(["ids", "honeypot"])
-`
+```
 
 Comprehensions:
 
-`py
+```py
 pings = [f"Pinging {srv}..." for srv in servers]
-`
+```
 
 Slicing:
 
-`py
+```py
 subset = servers[1:3]
-`
+```
 
 Reverse loop:
 
-`py
+```py
 for srv in reversed(servers):
     print(srv)
-`
+```
 
 ---
 
@@ -134,34 +134,34 @@ for srv in reversed(servers):
 
 Dictionaries become configs, JSON, structured data — everything.
 
-`py
+```py
 user = {"username": "michael", "role": "analyst"}
-`
+```
 
 Merge:
 
-`py
+```py
 full_user = {**user, "privileges": ["read", "write"]}
-`
+```
 
 Inline creation:
 
-`py
+```py
 config = dict(port=8080, retries=5, secure=True)
-`
+```
 
 Loop:
 
-`py
+```py
 for key, value in user.items():
     print(key, value)
-`
+```
 
 Safe key access:
 
-`py
+```py
 role = user.get("role", "unknown")
-`
+```
 
 ---
 
@@ -170,25 +170,25 @@ role = user.get("role", "unknown")
 
 Basic branching:
 
-`py
+```py
 if x > 5:
     print("Big")
 else:
     print("Small")
-`
+```
 
 One-liner:
 
-`py
+```py
 print("Big") if x > 5 else print("Small")
-`
+```
 
 Truthiness:
 
-`py
+```py
 if servers:
     print("Servers exist")
-`
+```
 
 ---
 
@@ -197,30 +197,30 @@ if servers:
 
 Basic:
 
-`py
+```py
 for srv in servers:
     print(srv)
-`
+```
 
 Numbered:
 
-`py
+```py
 for i, srv in enumerate(servers, start=1):
     print(i, srv)
-`
+```
 
 Zip:
 
-`py
+```py
 for name, port in zip(servers, [514, 443, 8000]):
     print(name, port)
-`
+```
 
 Filter:
 
-`py
+```py
 critical = [srv for srv in servers if "splunk" in srv]
-`
+```
 
 ---
 
@@ -229,41 +229,41 @@ critical = [srv for srv in servers if "splunk" in srv]
 
 Basic:
 
-`py
+```py
 def greet(name):
     return f"Hello, {name}"
-`
+```
 
 Default parameter:
 
-`py
+```py
 def greet(name="stranger"):
     return f"Hello, {name}"
-`
+```
 
 *args:
 
-`py
+```py
 def audit(*hosts):
     for h in hosts:
         print(h)
-`
+```
 
 **kwargs:
 
-`py
+```py
 def configure(**settings):
     return settings
-`
+```
 
 Return multiple values:
 
-`py
+```py
 def bounds():
     return 10, 20
 
 low, high = bounds()
-`
+```
 
 ---
 
@@ -272,30 +272,30 @@ low, high = bounds()
 
 Basic:
 
-`py
+```py
 try:
     risky = 1 / 0
 except ZeroDivisionError:
     print("No.")
-`
+```
 
 Catch multiple:
 
-`py
+```py
 try:
     do()
 except (ValueError, TypeError):
     print("Error")
-`
+```
 
 Traceback preservation:
 
-`py
+```py
 try:
     risky()
 except Exception as e:
     raise RuntimeError("Failed") from e
-`
+```
 
 ---
 
@@ -304,43 +304,43 @@ except Exception as e:
 
 Classic:
 
-`py
+```py
 with open("notes.txt", "w") as f:
     f.write("Document everything.")
-`
+```
 
 Modern (pathlib):
 
-`py
+```py
 from pathlib import Path
 Path("logs.txt").write_text("Log1\nLog2")
-`
+```
 
 Read:
 
-`py
+```py
 lines = Path("logs.txt").read_text().splitlines()
-`
+```
 
 ---
 
 ## Virtual Environments
 [Back to Table of Contents](#table-of-contents)
 
-`py
+```py
 python -m venv venv
-`
+```
 
 Activate:
 
-`py
+```py
 venv\Scripts\activate
-`
+```
 (Windows)
 
-`py
+```py
 source venv/bin/activate
-`
+```
 (Linux/macOS)
 
 ---
@@ -348,18 +348,18 @@ source venv/bin/activate
 ## Imports
 [Back to Table of Contents](#table-of-contents)
 
-`py
+```py
 import os, sys
-`
+```
 
-`py
+```py
 from datetime import datetime, timedelta
-`
+```
 
-`py
+```py
 from pathlib import Path
 from collections import defaultdict
-`
+```
 
 ---
 
@@ -375,7 +375,7 @@ Before running it, see if you can figure out:
 3. Where the error occurs  
 4. What ends up in the log  
 
-`py
+```py
 from pathlib import Path
 from datetime import datetime
 
@@ -427,7 +427,7 @@ def main():
 
 if __name__ == "__main__":
     main()
-`
+```
 
 ---
 
@@ -443,7 +443,7 @@ This example simulates a lightweight SOC automation tool that:
 - Flags potential brute force attacks  
 - Writes findings to a report  
 
-`py
+```py
 from pathlib import Path
 from collections import defaultdict
 from datetime import datetime
@@ -478,7 +478,7 @@ report = Path("soc_report.txt")
 report.write_text("\n".join(alerts) or "No threats detected.")
 
 print("SOC Report Generated:", report.resolve())
-`
+```
 
 ### Why this matters  
 This tiny example demonstrates concepts used constantly in SOC environments:
