@@ -46,7 +46,7 @@ print(f"Hello, {name}.")
 # f-strings: fastest, cleanest, and recommended.
 
 print("Hello, {}".format(name))    
-# Older `````````.format()````````` — works, more typing.
+# Older .format() — works, more typing.
 
 print("Hello,", name)              
 # Python auto-inserts spaces.
