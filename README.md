@@ -1,396 +1,423 @@
 # Python Scripting Foundations
 
-### *“We start with humble beginnings…”*
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
+![Category](https://img.shields.io/badge/Focus-Automation%20%7C%20SOC%20Scripting-green)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 
-```py
+This repo exists as a fast, practical reference for writing clean, modern Python — especially for automation, SOC tooling, and daily scripting tasks.  
+Rather than teach Python from scratch, this guide focuses on **shortcuts, cleaner patterns, and “better ways”** to write scripts right from the beginning.
+
+Think of this as a cheat sheet for writing smarter, more expressive Python.
+
+---
+
+## Table of Contents
+- [Introduction](#python-scripting-foundations)
+- [Variables](#variables)
+- [Lists](#lists)
+- [Dictionaries](#dictionaries)
+- [If / Else](#if--else)
+- [Loops](#loops)
+- [Functions](#functions)
+- [Try / Except](#try--except)
+- [File I/O](#file-io)
+- [Virtual Environments](#virtual-environments)
+- [Imports](#imports)
+- [Sample Script (Challenge)](#sample-script-challenge)
+- [SOC Automation Example](#soc-automation-example)
+- [Final Thoughts](#final-thoughts)
+- [Next Steps](#next-steps)
+
+---
+
+### “We start with humble beginnings…”
+[Back to Table of Contents](#table-of-contents)
+
+`py
 print("Hello, world.")
 # Basic print — works, but doesn't scale when you need variables or formatting.
-```
+`
 
 Now, the improved versions:
 
-```py
+`py
 name = "Michael"
 
 print(f"Hello, {name}.")           
-# f-strings: fastest, cleanest, and readable. Recommended for almost everything.
+# f-strings: fastest, cleanest, and recommended.
 
 print("Hello, {}".format(name))    
-# Older `.format()` style — still valid, just more typing.
+# Older `.format()` — works, more typing.
 
 print("Hello,", name)              
-# Python auto-inserts spaces. Works, but formatting gets messy quickly.
-```
+# Python auto-inserts spaces.
+`
 
 ---
 
 ## Variables
-Basic assignments:
+[Back to Table of Contents](#table-of-contents)
 
-```py
+Before automating anything, you need to store and manipulate values.
+
+`py
 x = 5
 y = 10
 z = 15
-# Standard assignments — clear but repetitive.
-```
+`
 
-Better: **Multiple assignment (tuple unpacking)**
+Better — multiple assignment:
 
-```py
+`py
 a, b, c = 5, 10, 15
-# Assign multiple variables at once — Python unpacks the values automatically.
-```
+`
 
-Swapping without a temporary variable:
+Swapping values:
 
-```py
+`py
 left, right = right, left
-# Python swaps both values simultaneously — elegant and avoids temp vars.
-```
+`
 
-Capturing the "middle" section of a list:
+Capturing middle items:
 
-```py
+`py
 first, *middle, last = [1, 2, 3, 4, 5]
-# *middle captures any number of items. Powerful pattern for parsing lists.
-```
+`
+
+Bonus — unpack a range:
+
+`py
+a, b, c = range(3)
+`
 
 ---
 
 ## Lists
-Basic:
+[Back to Table of Contents](#table-of-contents)
 
-```py
+Lists appear everywhere in scripting.
+
+`py
 servers = ["splunk", "pfsense", "core-switch"]
-```
+`
 
-Better list operations:
+Better operations:
 
-```py
-servers += ["kali"]                    
-# Adds items without calling append() repeatedly — cleaner for multiple values.
+`py
+servers += ["kali"]
+servers.extend(["ids", "honeypot"])
+`
 
-servers.extend(["ids", "honeypot"])    
-# Efficient for bulk additions — faster and more explicit than append in loops.
-```
+Comprehensions:
 
-List comprehension (the Python flex):
-
-```py
+`py
 pings = [f"Pinging {srv}..." for srv in servers]
-# Builds a new list in one readable expression — efficient + concise.
-```
+`
+
+Slicing:
+
+`py
+subset = servers[1:3]
+`
+
+Reverse loop:
+
+`py
+for srv in reversed(servers):
+    print(srv)
+`
 
 ---
 
 ## Dictionaries
-Basic:
+[Back to Table of Contents](#table-of-contents)
 
-```py
-user = {
-    "username": "michael",
-    "role": "analyst"
-}
-```
+Dictionaries become configs, JSON, structured data — everything.
 
-Merge dictionaries (clean and powerful):
+`py
+user = {"username": "michael", "role": "analyst"}
+`
 
-```py
+Merge:
+
+`py
 full_user = {**user, "privileges": ["read", "write"]}
-# ** expands dictionary pairs — lets you merge or override fields easily.
-```
+`
 
-Inline dictionary creation:
+Inline creation:
 
-```py
+`py
 config = dict(port=8080, retries=5, secure=True)
-# Same as {"port": 8080, ...} but cleaner when building configs dynamically.
-```
+`
 
-Looping properly:
+Loop:
 
-```py
+`py
 for key, value in user.items():
-    print(f"{key}: {value}")
-# .items() gives pairs — keeps code clean and readable.
-```
+    print(key, value)
+`
+
+Safe key access:
+
+`py
+role = user.get("role", "unknown")
+`
 
 ---
 
 ## If / Else
-Basic:
+[Back to Table of Contents](#table-of-contents)
 
-```py
+Basic branching:
+
+`py
 if x > 5:
-    print("Big number")
+    print("Big")
 else:
-    print("Small number")
-```
+    print("Small")
+`
 
 One-liner:
 
-```py
-print("Big number") if x > 5 else print("Small number")
-# Good for compact logic — but don’t overuse it.
-```
+`py
+print("Big") if x > 5 else print("Small")
+`
 
-Using Python “truthiness”:
+Truthiness:
 
-```py
-if servers:     
-    print("We have servers.")
-# Non-empty lists evaluate to True. Empty lists = False.
-```
+`py
+if servers:
+    print("Servers exist")
+`
 
 ---
 
 ## Loops
+[Back to Table of Contents](#table-of-contents)
+
 Basic:
 
-```py
+`py
 for srv in servers:
     print(srv)
-```
+`
 
-Better: numbered iteration:
+Numbered:
 
-```py
+`py
 for i, srv in enumerate(servers, start=1):
-    print(f"{i}. {srv}")
-# enumerate() gives you both index and value — more control, cleaner code.
-```
+    print(i, srv)
+`
 
-Looping through two lists at once:
+Zip:
 
-```py
+`py
 for name, port in zip(servers, [514, 443, 8000]):
     print(name, port)
-# zip() pairs items — avoids using range() or indexing into lists manually.
-```
+`
 
-List comprehension filtering:
+Filter:
 
-```py
+`py
 critical = [srv for srv in servers if "splunk" in srv]
-# Builds a filtered list inline — very Pythonic.
-```
+`
 
 ---
 
 ## Functions
+[Back to Table of Contents](#table-of-contents)
+
 Basic:
 
-```py
+`py
 def greet(name):
     return f"Hello, {name}"
-```
+`
 
-Better: default parameter:
+Default parameter:
 
-```py
+`py
 def greet(name="stranger"):
     return f"Hello, {name}"
-# Default values prevent errors when arguments are missing.
-```
+`
 
-Flexible argument handling:
+*args:
 
-```py
+`py
 def audit(*hosts):
-    # *hosts packs all positional arguments into a tuple.
     for h in hosts:
-        print(f"Auditing {h}...")
+        print(h)
+`
 
-audit("fw01", "fw02", "dmz-switch")
-```
+**kwargs:
 
-Keyword argument flexibility:
-
-```py
+`py
 def configure(**settings):
-    # **settings packs keyword arguments into a dictionary.
     return settings
+`
 
-cfg = configure(mode="secure", retries=5, encryption="AES")
-```
+Return multiple values:
+
+`py
+def bounds():
+    return 10, 20
+
+low, high = bounds()
+`
 
 ---
 
 ## Try / Except
+[Back to Table of Contents](#table-of-contents)
+
 Basic:
 
-```py
+`py
 try:
     risky = 1 / 0
 except ZeroDivisionError:
-    print("Math said no.")
-```
+    print("No.")
+`
 
-Catching multiple errors:
+Catch multiple:
 
-```py
+`py
 try:
-    do_something()
-except (ValueError, TypeError) as e:
-    print(f"Bad input: {e}")
-# Keeps exception handling tidy when multiple issues share the same response.
-```
+    do()
+except (ValueError, TypeError):
+    print("Error")
+`
 
-Chaining exceptions:
+Traceback preservation:
 
-```py
+`py
 try:
     risky()
 except Exception as e:
-    raise RuntimeError("Something exploded.") from e
-# `from e` keeps the original traceback — this is what senior engineers do.
-```
+    raise RuntimeError("Failed") from e
+`
 
 ---
 
 ## File I/O
-Basic:
+[Back to Table of Contents](#table-of-contents)
 
-```py
+Classic:
+
+`py
 with open("notes.txt", "w") as f:
     f.write("Document everything.")
-# `with` auto-closes the file even if errors occur — always use it.
-```
+`
 
-Better: using pathlib (cleanest modern approach):
+Modern (pathlib):
 
-```py
+`py
 from pathlib import Path
+Path("logs.txt").write_text("Log1\nLog2")
+`
 
-lines = ["Log1", "Log2", "Log3"]
-Path("logs.txt").write_text("\n".join(lines))
-# Path.write_text handles opening, writing, and closing under the hood.
-```
+Read:
 
-Reading cleanly:
-
-```py
-data = Path("logs.txt").read_text().splitlines()
-# splitlines() removes newlines and returns a clean list of strings.
-```
+`py
+lines = Path("logs.txt").read_text().splitlines()
+`
 
 ---
 
 ## Virtual Environments
-Basic:
+[Back to Table of Contents](#table-of-contents)
 
-```py
+`py
 python -m venv venv
-# Creates a self-contained Python environment.
-```
+`
 
-Activating:
+Activate:
 
-```py
-venv\Scripts\activate     
-# Windows
+`py
+venv\Scripts\activate
+`
+(Windows)
 
-source venv/bin/activate  
-# Linux/macOS
-```
-
-Upgrade pip & check packages:
-
-```py
-pip install --upgrade pip
-pip list
-# Good hygiene for fresh environments.
-```
+`py
+source venv/bin/activate
+`
+(Linux/macOS)
 
 ---
 
 ## Imports
-Basic imports:
+[Back to Table of Contents](#table-of-contents)
 
-```py
-import os
-import sys
-```
+`py
+import os, sys
+`
 
-Grouped imports:
-
-```py
+`py
 from datetime import datetime, timedelta
-# Import multiple symbols from the same module cleanly.
-```
+`
 
-Useful modern modules:
-
-```py
-from pathlib import Path           
-# Modern filesystem handling — preferred over os.path
-
-from collections import defaultdict  
-# Auto-creates empty values — amazing for building counters or grouped data.
-```
+`py
+from pathlib import Path
+from collections import defaultdict
+`
 
 ---
 
-## Sample Script
+## Sample Script (Challenge)
+[Back to Table of Contents](#table-of-contents)
 
-```py
+Now that you've seen each concept individually, here they are combined into a mini automation script.
+
+**Challenge:**  
+Before running it, see if you can figure out:
+1. What it prints  
+2. What file it creates  
+3. Where the error occurs  
+4. What ends up in the log  
+
+`py
 from pathlib import Path
 from datetime import datetime
 
-# Multiple assignment (clean way to assign many variables at once)
 server1, server2, server3 = "splunk", "pfsense", "kali"
-
-# Store servers in a list for loops and comprehension
 servers = [server1, server2, server3]
 
-# Dictionary merging using ** unpacking
 base_config = {"mode": "secure"}
 extra_config = {"retries": 3, "timeout": 10}
 config = {**base_config, **extra_config}
 
-# Function that accepts any number of positional arguments using *args
 def audit(*hosts):
     for index, host in enumerate(hosts, start=1):
         print(f"{index}. Auditing {host}...")
     return f"Finished auditing {len(hosts)} host(s)."
 
-# Function that accepts keyword arguments using **kwargs
 def generate_report(**details):
     timestamp = datetime.now().isoformat()
     return f"{timestamp} REPORT {details}"
 
-# Demonstrates exception handling and chained errors
 def risky_operation():
-    # This always fails to show how try/except works
     try:
         return 10 / 0
     except Exception as e:
-        # Re-raise with context
         raise RuntimeError("risky_operation failed") from e
 
 def main():
-
     print("=== Demo Script Starting ===")
 
-    # List comprehension that builds a status list
     statuses = [f"Pinging {srv}..." for srv in servers]
     print("Statuses generated:", statuses)
 
-    # Run audit using *servers to unpack the list
     audit_result = audit(*servers)
     print(audit_result)
 
-    # Using truthiness of lists (non-empty means True)
     if servers:
         print("Server list is not empty.")
 
-    # Create a log file using pathlib (file is auto-created)
     log_path = Path("automation_log.txt")
-    report_data = generate_report(action="audit", targets=servers, config=config)
-    log_path.write_text(report_data)
-    print(f"Report written to {log_path.resolve()}")
+    data = generate_report(action="audit", targets=servers, config=config)
+    log_path.write_text(data)
+    print("Report written to:", log_path.resolve())
 
-    # Demonstrate error handling
     try:
         risky_operation()
     except RuntimeError as err:
@@ -398,23 +425,87 @@ def main():
 
     print("=== Demo Script Complete ===")
 
-# Only execute if run directly
 if __name__ == "__main__":
     main()
-```
+`
+
+---
+
+## SOC Automation Example
+[Back to Table of Contents](#table-of-contents)
+
+Now that you've seen a general-purpose automation script, here’s how these exact Python techniques translate into **real cybersecurity work**.
+
+This example simulates a lightweight SOC automation tool that:
+
+- Reads a log file  
+- Detects multiple failed logins from the same IP  
+- Flags potential brute force attacks  
+- Writes findings to a report  
+
+`py
+from pathlib import Path
+from collections import defaultdict
+from datetime import datetime
+
+log_file = Path("auth.log")
+
+# Sample log contents (the script creates the file itself)
+sample_logs = """\
+2025-01-01 10:10:01 Failed login from 192.168.1.10
+2025-01-01 10:10:02 Failed login from 192.168.1.10
+2025-01-01 10:10:05 Failed login from 10.0.0.5
+2025-01-01 10:10:07 Failed login from 192.168.1.10
+"""
+
+log_file.write_text(sample_logs)
+
+# Count failed attempts per IP
+failures = defaultdict(int)
+
+for line in log_file.read_text().splitlines():
+    if "Failed login" in line:
+        ip = line.split()[-1]
+        failures[ip] += 1
+
+# Build report using earlier techniques
+alerts = []
+for ip, count in failures.items():
+    if count >= 3:
+        alerts.append(f"Brute force suspected from {ip} ({count} failures)")
+
+report = Path("soc_report.txt")
+report.write_text("\n".join(alerts) or "No threats detected.")
+
+print("SOC Report Generated:", report.resolve())
+`
+
+### Why this matters  
+This tiny example demonstrates concepts used constantly in SOC environments:
+
+- Log parsing  
+- Pattern detection  
+- Aggregation  
+- Threshold-based alerting  
+- Automation to reduce analyst workload  
+
+It also uses every Python technique you learned earlier, showing how foundational scripting directly powers practical cybersecurity automation.
 
 ---
 
 ## Final Thoughts
-This repo skips the slow on-ramp and jumps straight into:
-• “Here’s the basic way.”  
-• “Here’s the better way.”  
-• “Here’s the Pythonic way.”  
+[Back to Table of Contents](#table-of-contents)
 
-Short, clear, and full of power-user tricks you’ll actually use when scripting for automation, SOC tooling, detection engineering, or just making your life easier.
+This guide isn’t meant to teach Python from the ground up.  
+It’s meant to make you **dangerous quickly** — to give you the expressive tools that experienced engineers use by default.
 
-If you want, I can now generate:
-• A repo structure  
-• Example automation scripts  
-• Recommended learning path  
-• Bash + PowerShell versions in the same style  
+Use these patterns as your baseline.  
+Everything you build from here becomes clearer, cleaner, and more maintainable.
+
+---
+
+## Next Steps
+[Back to Table of Contents](#table-of-contents)
+
+This repo is part of a broader scripting foundation series.  
+Check out the upcoming **Bash** and **PowerShell** versions for matching automation patterns across languages.
