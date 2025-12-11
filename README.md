@@ -331,6 +331,80 @@ from collections import defaultdict
 
 ---
 
+## Sample Script
+
+```py
+from pathlib import Path
+from datetime import datetime
+
+# Multiple assignment (clean way to assign many variables at once)
+server1, server2, server3 = "splunk", "pfsense", "kali"
+
+# Store servers in a list for loops and comprehension
+servers = [server1, server2, server3]
+
+# Dictionary merging using ** unpacking
+base_config = {"mode": "secure"}
+extra_config = {"retries": 3, "timeout": 10}
+config = {**base_config, **extra_config}
+
+# Function that accepts any number of positional arguments using *args
+def audit(*hosts):
+    for index, host in enumerate(hosts, start=1):
+        print(f"{index}. Auditing {host}...")
+    return f"Finished auditing {len(hosts)} host(s)."
+
+# Function that accepts keyword arguments using **kwargs
+def generate_report(**details):
+    timestamp = datetime.now().isoformat()
+    return f"{timestamp} REPORT {details}"
+
+# Demonstrates exception handling and chained errors
+def risky_operation():
+    # This always fails to show how try/except works
+    try:
+        return 10 / 0
+    except Exception as e:
+        # Re-raise with context
+        raise RuntimeError("risky_operation failed") from e
+
+def main():
+
+    print("=== Demo Script Starting ===")
+
+    # List comprehension that builds a status list
+    statuses = [f"Pinging {srv}..." for srv in servers]
+    print("Statuses generated:", statuses)
+
+    # Run audit using *servers to unpack the list
+    audit_result = audit(*servers)
+    print(audit_result)
+
+    # Using truthiness of lists (non-empty means True)
+    if servers:
+        print("Server list is not empty.")
+
+    # Create a log file using pathlib (file is auto-created)
+    log_path = Path("automation_log.txt")
+    report_data = generate_report(action="audit", targets=servers, config=config)
+    log_path.write_text(report_data)
+    print(f"Report written to {log_path.resolve()}")
+
+    # Demonstrate error handling
+    try:
+        risky_operation()
+    except RuntimeError as err:
+        print("Error caught:", err)
+
+    print("=== Demo Script Complete ===")
+
+# Only execute if run directly
+if __name__ == "__main__":
+    main()
+```
+
+---
+
 ## Final Thoughts
 This repo skips the slow on-ramp and jumps straight into:
 • “Here’s the basic way.”  
