@@ -449,7 +449,6 @@ if __name__ == "__main__":
 ---
 
 ## SOC Automation Example
-[Back to Table of Contents](#table-of-contents)
 
 Now that you've seen a general-purpose automation script, here’s how these exact Python techniques translate into **real cybersecurity work**.
 
