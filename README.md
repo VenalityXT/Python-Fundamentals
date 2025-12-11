@@ -32,286 +32,311 @@ Think of this as a cheat sheet for writing smarter, more expressive Python.
 
 ### “We start with humble beginnings…”
 
-```py
+`````````py
 print("Hello, world.")
 # Basic print — works, but doesn't scale when you need variables or formatting.
-```
+`````````
 
 Now, the improved versions:
 
-```py
+`````````py
 name = "Michael"
 
 print(f"Hello, {name}.")           
 # f-strings: fastest, cleanest, and recommended.
 
 print("Hello, {}".format(name))    
-# Older ```.format()``` — works, more typing.
+# Older `````````.format()````````` — works, more typing.
 
 print("Hello,", name)              
 # Python auto-inserts spaces.
-```
+`````````
 
 ---
 
 ## Variables
 
-Before automating anything, you need to store and manipulate values.
-
 ```py
 x = 5
 y = 10
 z = 15
+# Standard variable assignments. Python creates variables as soon as you assign them.
 ```
 
-Better — multiple assignment:
+**Multiple assignment (tuple unpacking)**  
+Assign several variables at once in a single line.
 
 ```py
 a, b, c = 5, 10, 15
 ```
 
-Swapping values:
+**Swapping values**  
+A Python trick to swap variables without using a temporary placeholder.
 
 ```py
 left, right = right, left
 ```
 
-Capturing middle items:
+**Unpacking with a “catch-all”**  
+The starred variable grabs any number of values.
 
 ```py
 first, *middle, last = [1, 2, 3, 4, 5]
+# middle becomes [2, 3, 4]
 ```
 
-Bonus — unpack a range:
+**Unpacking ranges**  
+A quick way to generate sequential numbers and assign them immediately.
 
 ```py
-a, b, c = range(3)
+a, b, c = range(3)  # 0, 1, 2
 ```
+
 
 ---
 
 ## Lists
 
-Lists appear everywhere in scripting.
-
 ```py
 servers = ["splunk", "pfsense", "core-switch"]
+# A list is an ordered, changeable collection.
 ```
 
-Better operations:
+**List expansion**  
+Two clean ways to add multiple items.
 
 ```py
 servers += ["kali"]
 servers.extend(["ids", "honeypot"])
 ```
 
-Comprehensions:
+**List comprehension**  
+A compact way to build or transform lists.
 
 ```py
 pings = [f"Pinging {srv}..." for srv in servers]
+# Reads like: “for each server, build this string.”
 ```
 
-Slicing:
+**Slicing**  
+Extracts a portion of a list using index ranges.
 
 ```py
 subset = servers[1:3]
+# Grabs indexes 1 and 2.
 ```
 
-Reverse loop:
+**Reverse iteration**
 
 ```py
 for srv in reversed(servers):
     print(srv)
+# reversed(...) does not copy the list; it just reverses the view.
 ```
+
 
 ---
 
 ## Dictionaries
 
-Dictionaries become configs, JSON, structured data — everything.
-
 ```py
 user = {"username": "michael", "role": "analyst"}
+# Dictionaries store key-value pairs, like mini JSON objects.
 ```
 
-Merge:
+**Merging dictionaries**  
+A clean way to combine or override keys.
 
 ```py
 full_user = {**user, "privileges": ["read", "write"]}
 ```
 
-Inline creation:
+**Inline dictionary creation**
 
 ```py
 config = dict(port=8080, retries=5, secure=True)
+# A stylistic alternative to {...}.
 ```
 
-Loop:
+**Looping through key-value pairs**
 
 ```py
 for key, value in user.items():
     print(key, value)
 ```
 
-Safe key access:
+**Safe key access**  
+Avoids errors if the key doesn't exist.
 
 ```py
 role = user.get("role", "unknown")
 ```
 
+
 ---
 
 ## If / Else
 
-Basic branching:
-
 ```py
 if x > 5:
-    print("Big")
+    print("Big number")
 else:
-    print("Small")
+    print("Small number")
+# Standard conditional.
 ```
 
-One-liner:
+**One-line conditional**  
+Useful for compact expressions.
 
 ```py
 print("Big") if x > 5 else print("Small")
 ```
 
-Truthiness:
+**Truthiness**  
+Many Python objects evaluate to True or False by default.
 
 ```py
-if servers:
+if servers:  # A non-empty list = True
     print("Servers exist")
 ```
+
 
 ---
 
 ## Loops
 
-Basic:
-
 ```py
 for srv in servers:
     print(srv)
+# Basic iteration through a list.
 ```
 
-Numbered:
+**Enumerate**  
+Adds an automatic counter.
 
 ```py
 for i, srv in enumerate(servers, start=1):
     print(i, srv)
 ```
 
-Zip:
+**Zip iteration**  
+Pairs elements from multiple lists.
 
 ```py
 for name, port in zip(servers, [514, 443, 8000]):
     print(name, port)
 ```
 
-Filter:
+**Filtered list comprehension**
 
 ```py
 critical = [srv for srv in servers if "splunk" in srv]
+# Creates a new list only containing items that match the condition.
 ```
+
 
 ---
 
 ## Functions
 
-Basic:
-
 ```py
 def greet(name):
     return f"Hello, {name}"
+# A basic function that returns a value.
 ```
 
-Default parameter:
+**Default parameters**
 
 ```py
 def greet(name="stranger"):
     return f"Hello, {name}"
+# If no name is provided, "stranger" is used.
 ```
 
-*args:
+**Accept any number of positional arguments**
 
 ```py
 def audit(*hosts):
     for h in hosts:
-        print(h)
+        print("Auditing", h)
+# *hosts collects all positional arguments into a tuple.
 ```
 
-**kwargs:
+**Accept any number of keyword arguments**
 
 ```py
 def configure(**settings):
     return settings
+# **settings collects named arguments into a dictionary.
 ```
 
-Return multiple values:
+**Returning multiple values**
 
 ```py
 def bounds():
     return 10, 20
 
 low, high = bounds()
+# Python automatically unpacks the returned tuple.
 ```
+
 
 ---
 
 ## Try / Except
 
-Basic:
-
 ```py
 try:
     risky = 1 / 0
 except ZeroDivisionError:
-    print("No.")
+    print("Math said no.")
+# try blocks watch for errors; except handles specific ones.
 ```
 
-Catch multiple:
+**Catching multiple exceptions**
 
 ```py
 try:
-    do()
+    do_something()
 except (ValueError, TypeError):
-    print("Error")
+    print("Input problem")
 ```
 
-Traceback preservation:
+**Reraising with context**
 
 ```py
 try:
     risky()
 except Exception as e:
-    raise RuntimeError("Failed") from e
+    raise RuntimeError("Something exploded") from e
+# 'from e' preserves the original traceback.
 ```
+
 
 ---
 
 ## File I/O
 
-Classic:
-
 ```py
 with open("notes.txt", "w") as f:
     f.write("Document everything.")
+# 'with' ensures the file closes automatically.
 ```
 
-Modern (pathlib):
+**Using pathlib (cleaner, modern approach)**
 
 ```py
 from pathlib import Path
 Path("logs.txt").write_text("Log1\nLog2")
 ```
 
-Read:
+**Reading using pathlib**
 
 ```py
 lines = Path("logs.txt").read_text().splitlines()
+# splitlines() removes newline characters.
 ```
+
 
 ---
 
@@ -319,19 +344,21 @@ lines = Path("logs.txt").read_text().splitlines()
 
 ```py
 python -m venv venv
+# Creates an isolated Python environment.
 ```
 
-Activate:
+Activate on Windows:
 
 ```py
 venv\Scripts\activate
 ```
-(Windows)
+
+Activate on Linux/macOS:
 
 ```py
 source venv/bin/activate
 ```
-(Linux/macOS)
+
 
 ---
 
@@ -339,15 +366,18 @@ source venv/bin/activate
 
 ```py
 import os, sys
+# Standard library imports.
 ```
 
 ```py
 from datetime import datetime, timedelta
+# Import specific objects from a module.
 ```
 
 ```py
 from pathlib import Path
 from collections import defaultdict
+# Helpful modern utilities for file paths and counting/grouping.
 ```
 
 ---
@@ -363,7 +393,7 @@ Before running it, see if you can figure out:
 3. Where the error occurs  
 4. What ends up in the log  
 
-```py
+`````````py
 from pathlib import Path
 from datetime import datetime
 
@@ -415,7 +445,7 @@ def main():
 
 if __name__ == "__main__":
     main()
-```
+`````````
 
 ---
 
@@ -431,7 +461,7 @@ This example simulates a lightweight SOC automation tool that:
 - Flags potential brute force attacks  
 - Writes findings to a report  
 
-```py
+`````````py
 from pathlib import Path
 from collections import defaultdict
 from datetime import datetime
@@ -466,7 +496,7 @@ report = Path("soc_report.txt")
 report.write_text("\n".join(alerts) or "No threats detected.")
 
 print("SOC Report Generated:", report.resolve())
-```
+`````````
 
 ### Why this matters  
 This tiny example demonstrates concepts used constantly in SOC environments:
