@@ -11,7 +11,6 @@ Think of this as a cheat sheet for writing smarter, more expressive Python.
 ---
 
 ## Table of Contents
-- [Introduction](#python-scripting-foundations)
 - [Variables](#variables)
 - [Lists](#lists)
 - [Dictionaries](#dictionaries)
@@ -25,7 +24,6 @@ Think of this as a cheat sheet for writing smarter, more expressive Python.
 - [Sample Script (Challenge)](#sample-script-challenge)
 - [SOC Automation Example](#soc-automation-example)
 - [Final Thoughts](#final-thoughts)
-- [Next Steps](#next-steps)
 
 ---
 
