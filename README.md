@@ -4,8 +4,8 @@
 ![Category](https://img.shields.io/badge/Focus-Automation%20%7C%20SOC%20Scripting-green)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 
-This repo exists as a fast, practical reference for writing clean, modern Python — especially for automation, SOC tooling, and daily scripting tasks.  
-Rather than teach Python from scratch, this guide focuses on **shortcuts, cleaner patterns, and “better ways”** to write scripts right from the beginning.
+This repository exists as a fast, practical reference for writing clean, modern Python — especially for automation, SOC tooling, and daily scripting tasks.  
+If you're like me and would rather focuses on **shortcuts, cleaner patterns, and “better ways”** to write scripts right from the beginning, this is for you.
 
 Think of this as a cheat sheet for writing smarter, more expressive Python.
 
@@ -31,7 +31,6 @@ Think of this as a cheat sheet for writing smarter, more expressive Python.
 ---
 
 ### “We start with humble beginnings…”
-[Back to Table of Contents](#table-of-contents)
 
 ```py
 print("Hello, world.")
@@ -56,7 +55,6 @@ print("Hello,", name)
 ---
 
 ## Variables
-[Back to Table of Contents](#table-of-contents)
 
 Before automating anything, you need to store and manipulate values.
 
@@ -93,7 +91,6 @@ a, b, c = range(3)
 ---
 
 ## Lists
-[Back to Table of Contents](#table-of-contents)
 
 Lists appear everywhere in scripting.
 
@@ -130,7 +127,6 @@ for srv in reversed(servers):
 ---
 
 ## Dictionaries
-[Back to Table of Contents](#table-of-contents)
 
 Dictionaries become configs, JSON, structured data — everything.
 
@@ -166,7 +162,6 @@ role = user.get("role", "unknown")
 ---
 
 ## If / Else
-[Back to Table of Contents](#table-of-contents)
 
 Basic branching:
 
@@ -193,7 +188,6 @@ if servers:
 ---
 
 ## Loops
-[Back to Table of Contents](#table-of-contents)
 
 Basic:
 
@@ -225,7 +219,6 @@ critical = [srv for srv in servers if "splunk" in srv]
 ---
 
 ## Functions
-[Back to Table of Contents](#table-of-contents)
 
 Basic:
 
@@ -268,7 +261,6 @@ low, high = bounds()
 ---
 
 ## Try / Except
-[Back to Table of Contents](#table-of-contents)
 
 Basic:
 
@@ -300,7 +292,6 @@ except Exception as e:
 ---
 
 ## File I/O
-[Back to Table of Contents](#table-of-contents)
 
 Classic:
 
@@ -325,7 +316,6 @@ lines = Path("logs.txt").read_text().splitlines()
 ---
 
 ## Virtual Environments
-[Back to Table of Contents](#table-of-contents)
 
 ```py
 python -m venv venv
@@ -346,7 +336,6 @@ source venv/bin/activate
 ---
 
 ## Imports
-[Back to Table of Contents](#table-of-contents)
 
 ```py
 import os, sys
@@ -364,7 +353,6 @@ from collections import defaultdict
 ---
 
 ## Sample Script (Challenge)
-[Back to Table of Contents](#table-of-contents)
 
 Now that you've seen each concept individually, here they are combined into a mini automation script.
 
@@ -494,7 +482,6 @@ It also uses every Python technique you learned earlier, showing how foundationa
 ---
 
 ## Final Thoughts
-[Back to Table of Contents](#table-of-contents)
 
 This guide isn’t meant to teach Python from the ground up.  
 It’s meant to make you **dangerous quickly** — to give you the expressive tools that experienced engineers use by default.
@@ -505,7 +492,6 @@ Everything you build from here becomes clearer, cleaner, and more maintainable.
 ---
 
 ## Next Steps
-[Back to Table of Contents](#table-of-contents)
 
 This repo is part of a broader scripting foundation series.  
 Check out the upcoming **Bash** and **PowerShell** versions for matching automation patterns across languages.
