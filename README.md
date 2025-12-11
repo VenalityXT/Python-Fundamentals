@@ -1,10 +1,11 @@
 # Python Scripting Foundations
 
-### *“We start with humble beginnings…”*  
+### *“We start with humble beginnings…”*
+
 ```py
 print("Hello, world.")
 # Basic print — works, but doesn't scale when you need variables or formatting.
-```py
+```
 
 Now, the improved versions:
 
@@ -19,7 +20,7 @@ print("Hello, {}".format(name))
 
 print("Hello,", name)              
 # Python auto-inserts spaces. Works, but formatting gets messy quickly.
-```py
+```
 
 ---
 
@@ -31,28 +32,28 @@ x = 5
 y = 10
 z = 15
 # Standard assignments — clear but repetitive.
-```py
+```
 
 Better: **Multiple assignment (tuple unpacking)**
 
 ```py
 a, b, c = 5, 10, 15
 # Assign multiple variables at once — Python unpacks the values automatically.
-```py
+```
 
 Swapping without a temporary variable:
 
 ```py
 left, right = right, left
 # Python swaps both values simultaneously — elegant and avoids temp vars.
-```py
+```
 
 Capturing the "middle" section of a list:
 
 ```py
 first, *middle, last = [1, 2, 3, 4, 5]
 # *middle captures any number of items. Powerful pattern for parsing lists.
-```py
+```
 
 ---
 
@@ -61,7 +62,7 @@ Basic:
 
 ```py
 servers = ["splunk", "pfsense", "core-switch"]
-```py
+```
 
 Better list operations:
 
@@ -71,14 +72,14 @@ servers += ["kali"]
 
 servers.extend(["ids", "honeypot"])    
 # Efficient for bulk additions — faster and more explicit than append in loops.
-```py
+```
 
 List comprehension (the Python flex):
 
 ```py
 pings = [f"Pinging {srv}..." for srv in servers]
 # Builds a new list in one readable expression — efficient + concise.
-```py
+```
 
 ---
 
@@ -90,21 +91,21 @@ user = {
     "username": "michael",
     "role": "analyst"
 }
-```py
+```
 
 Merge dictionaries (clean and powerful):
 
 ```py
 full_user = {**user, "privileges": ["read", "write"]}
 # ** expands dictionary pairs — lets you merge or override fields easily.
-```py
+```
 
 Inline dictionary creation:
 
 ```py
 config = dict(port=8080, retries=5, secure=True)
 # Same as {"port": 8080, ...} but cleaner when building configs dynamically.
-```py
+```
 
 Looping properly:
 
@@ -112,7 +113,7 @@ Looping properly:
 for key, value in user.items():
     print(f"{key}: {value}")
 # .items() gives pairs — keeps code clean and readable.
-```py
+```
 
 ---
 
@@ -124,14 +125,14 @@ if x > 5:
     print("Big number")
 else:
     print("Small number")
-```py
+```
 
 One-liner:
 
 ```py
 print("Big number") if x > 5 else print("Small number")
 # Good for compact logic — but don’t overuse it.
-```py
+```
 
 Using Python “truthiness”:
 
@@ -139,7 +140,7 @@ Using Python “truthiness”:
 if servers:     
     print("We have servers.")
 # Non-empty lists evaluate to True. Empty lists = False.
-```py
+```
 
 ---
 
@@ -149,7 +150,7 @@ Basic:
 ```py
 for srv in servers:
     print(srv)
-```py
+```
 
 Better: numbered iteration:
 
@@ -157,7 +158,7 @@ Better: numbered iteration:
 for i, srv in enumerate(servers, start=1):
     print(f"{i}. {srv}")
 # enumerate() gives you both index and value — more control, cleaner code.
-```py
+```
 
 Looping through two lists at once:
 
@@ -165,14 +166,14 @@ Looping through two lists at once:
 for name, port in zip(servers, [514, 443, 8000]):
     print(name, port)
 # zip() pairs items — avoids using range() or indexing into lists manually.
-```py
+```
 
 List comprehension filtering:
 
 ```py
 critical = [srv for srv in servers if "splunk" in srv]
 # Builds a filtered list inline — very Pythonic.
-```py
+```
 
 ---
 
@@ -182,7 +183,7 @@ Basic:
 ```py
 def greet(name):
     return f"Hello, {name}"
-```py
+```
 
 Better: default parameter:
 
@@ -190,7 +191,7 @@ Better: default parameter:
 def greet(name="stranger"):
     return f"Hello, {name}"
 # Default values prevent errors when arguments are missing.
-```py
+```
 
 Flexible argument handling:
 
@@ -201,7 +202,7 @@ def audit(*hosts):
         print(f"Auditing {h}...")
 
 audit("fw01", "fw02", "dmz-switch")
-```py
+```
 
 Keyword argument flexibility:
 
@@ -211,7 +212,7 @@ def configure(**settings):
     return settings
 
 cfg = configure(mode="secure", retries=5, encryption="AES")
-```py
+```
 
 ---
 
@@ -223,7 +224,7 @@ try:
     risky = 1 / 0
 except ZeroDivisionError:
     print("Math said no.")
-```py
+```
 
 Catching multiple errors:
 
@@ -233,7 +234,7 @@ try:
 except (ValueError, TypeError) as e:
     print(f"Bad input: {e}")
 # Keeps exception handling tidy when multiple issues share the same response.
-```py
+```
 
 Chaining exceptions:
 
@@ -243,7 +244,7 @@ try:
 except Exception as e:
     raise RuntimeError("Something exploded.") from e
 # `from e` keeps the original traceback — this is what senior engineers do.
-```py
+```
 
 ---
 
@@ -254,7 +255,7 @@ Basic:
 with open("notes.txt", "w") as f:
     f.write("Document everything.")
 # `with` auto-closes the file even if errors occur — always use it.
-```py
+```
 
 Better: using pathlib (cleanest modern approach):
 
@@ -264,14 +265,14 @@ from pathlib import Path
 lines = ["Log1", "Log2", "Log3"]
 Path("logs.txt").write_text("\n".join(lines))
 # Path.write_text handles opening, writing, and closing under the hood.
-```py
+```
 
 Reading cleanly:
 
 ```py
 data = Path("logs.txt").read_text().splitlines()
 # splitlines() removes newlines and returns a clean list of strings.
-```py
+```
 
 ---
 
@@ -281,7 +282,7 @@ Basic:
 ```py
 python -m venv venv
 # Creates a self-contained Python environment.
-```py
+```
 
 Activating:
 
@@ -291,7 +292,7 @@ venv\Scripts\activate
 
 source venv/bin/activate  
 # Linux/macOS
-```py
+```
 
 Upgrade pip & check packages:
 
@@ -299,7 +300,7 @@ Upgrade pip & check packages:
 pip install --upgrade pip
 pip list
 # Good hygiene for fresh environments.
-```py
+```
 
 ---
 
@@ -309,14 +310,14 @@ Basic imports:
 ```py
 import os
 import sys
-```py
+```
 
 Grouped imports:
 
 ```py
 from datetime import datetime, timedelta
 # Import multiple symbols from the same module cleanly.
-```py
+```
 
 Useful modern modules:
 
@@ -326,7 +327,7 @@ from pathlib import Path
 
 from collections import defaultdict  
 # Auto-creates empty values — amazing for building counters or grouped data.
-```py
+```
 
 ---
 
